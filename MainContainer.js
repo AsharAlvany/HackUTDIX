@@ -1,4 +1,4 @@
-import * as React from "react";
+git import * as React from "react";
 import { StatusBar, StyleSheet, Text, View, Image, Animated } from 'react-native';
 
 import { NavigationContainer } from "@react-navigation/native";
