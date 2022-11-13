@@ -1,8 +1,61 @@
-import { StatusBar, StyleSheet, Text, View, SafeAreaView, TextInput } from 'react-native';
+import React from 'react';
+import { StatusBar, StyleSheet, Text, View, SafeAreaView, TextInput, FlatList } from 'react-native';
 import Icon from "react-native-vector-icons/Ionicons";
 
+const DATA = [
+    {
+        symbol: "AAPL",
+        fullName: "Apple Inc.",
+        atClose: 149.70,
+        diff: 2.83
+    },
+    {
+        symbol: "T",
+        fullName: "AT&T Inc.",
+        atClose: 149.70,
+        diff: 2.83
+    },
+    {
+        symbol: "AMD",
+        fullName: "Advanced Micro Devices.",
+        atClose: 149.70,
+        diff: -2.83
+    },
+    {
+        symbol: "NVDA.MX",
+        fullName: "NVIDIA Corporation",
+        atClose: 149.70,
+        diff: -2.83
+    }
+];
 
-export default function App() {
+export default function App(props) {
+    const renderItem = ({ item }) => (
+        <View style={styles.individualStockContainer}>
+            <View style={styles.companyName}>
+                <View style={styles.companySymbolContainer}>
+                    <Text style={styles.entryText} numberOfLines={1}>{item.symbol}</Text>
+                </View>
+                <View style={styles.companyNameContainer}>
+                    <Text style={[styles.entryText2]} numberOfLines={1} ellipsizeMode={"tail"}>{item.fullName}</Text>
+                </View>
+            </View>
+            <View style={styles.stockInfo}>
+                <View style={styles.stockClosingContainer}>
+                    <Text style={styles.entryText} numberOfLines={1} ellipsizeMode={"tail"}>{item.atClose}</Text>
+                </View>
+                {
+                    (item.diff > 0) ? 
+                    (<View style={styles.stockDifferenceContainer}>
+                        <Text style={styles.pos} numberOfLines={1} ellipsizeMode={"tail"}>{item.diff > 0 ? ("+" + item.diff.toString()) : item.diff}</Text>
+                    </View>) :
+                    (<View style={styles.stockDifferenceContainer}>
+                        <Text style={styles.neg} numberOfLines={1} ellipsizeMode={"tail"}>{item.diff > 0 ? ("+" + item.diff.toString()) : item.diff}</Text>
+                    </View>)
+                }
+            </View>
+        </View>
+    );
     return (
         <View style={styles.bigContainer}>
             <SafeAreaView style={styles.safeAreaView}>
@@ -16,13 +69,23 @@ export default function App() {
                     <Icon adjustsFontSizeToFit name={"md-search"} color={"#FFFFFF"} style={styles.imNotSure} size={"15%"} />
                     <TextInput keyboardAppearance={"dark"} style={styles.textInput} placeholder={"Search"} placeholderTextColor={"#B4B4B4"} />
                 </View>
-                <View style={styles.stockList}>
-
-                </View>
+                <FlatList style={styles.stockList}
+                    data={DATA}
+                    renderItem={renderItem}
+                    keyExtractor={item => item.id}
+                />
             </SafeAreaView>
         </View>
     );
 }
+
+// export default class StockScreen extends React.Component {
+//     render(){
+//         return(
+//             <Header/>
+//         )
+//     }
+// }
 
 const styles = StyleSheet.create({
     bigContainer: {
@@ -56,10 +119,12 @@ const styles = StyleSheet.create({
         fontSize: "100%",
     },
     searchContainer: {
+        position: "absolute",
+        top: "13.5%",
+        height: "3.5%",
         marginVertical: "5%",
         backgroundColor: "#2d2d30",
         marginHorizontal: "5%",
-        flex: 0.75,
         width: "90%",
         borderRadius: "20%",
         flexDirection: "row",
@@ -67,7 +132,11 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     stockList: {
-        flex: 14.25,
+        transform: [{ translateY: -1 }],
+        marginTop: "5%",
+        height: "80%",
+        backgroundColor: "#18181A",
+        width: "100%"
     },
     imNotSure: {
         marginLeft: "5%",
@@ -80,4 +149,51 @@ const styles = StyleSheet.create({
         flex: 13,
         color: "white"
     },
+    individualStockContainer: {
+        paddingHorizontal: "5%",
+        height: 80,
+        borderBottomColor: "#7C7575",
+        borderBottomWidth: 1,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+    },
+    companyName: {
+        height: "100%",
+        // borderWidth: 1,
+        // borderColor: "red",
+        flexDirection: "column",
+        alignItems: "flex-start",
+        justifyContent: "space-between",
+        paddingVertical: "6%",
+        maxWidth: "35%",
+        color: "white"
+    },
+    entryText: {
+        color: "white",
+        fontSize: "15%"
+    },
+    entryText2: {
+        color: "#B4B4B4",
+        fontSize: "12%"
+    },
+    stockInfo: {
+        height: "100%",
+        // borderWidth: 1,
+        // borderColor: "red",
+        flexDirection: "column",
+        alignItems: "flex-end",
+        justifyContent: "center",
+        // paddingVertical: "%",
+        maxWidth: "35%",
+        color: "white"
+    },
+    pos: {
+        color: "green",
+        fontSize: "15%"
+    },
+    neg:{
+        color: "red",
+        fontSize: "15%"
+    }
 });

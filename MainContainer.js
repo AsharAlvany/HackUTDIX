@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StatusBar, StyleSheet, Text, View, Image} from 'react-native';
+import { StatusBar, StyleSheet, Text, View, Image, Animated } from 'react-native';
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -16,14 +16,37 @@ const settingsName = "Settings";
 
 const Tab = createBottomTabNavigator();
 
+const FadeLogo = (props) => {
+    const fadeValue = React.useRef(new Animated.Value(1)).current;
+    React.useEffect(() => {
+        Animated.timing(fadeValue, {
+            delay: 2000,
+            toValue: 0,
+            duration: 500,
+            useNativeDriver: false,
+        }).start();
+    }, [fadeValue]);
+
+    return (
+        <Animated.View
+            style={{
+                ...props.style,
+                opacity: fadeValue,
+            }}
+        >
+            {props.children}
+        </Animated.View>
+    );
+}
+
 export default function MainContainer() {
     const [loaded, setLoaded] = React.useState(false);
     React.useEffect(() => {
         setTimeout(() => {
             setLoaded(true);
-          }, 1500);
+        }, 2500);
     });
-    if(!loaded){
+    if (loaded) {
         return (
             <NavigationContainer independent={true}>
                 <Tab.Navigator
@@ -32,7 +55,7 @@ export default function MainContainer() {
                         tabBarIcon: ({ focused, color, size }) => {
                             let iconName;
                             let rn = route.name;
-    
+
                             if (rn === portfolioName) {
                                 iconName = focused ? 'document' : 'document-outline';
                             }
@@ -42,9 +65,9 @@ export default function MainContainer() {
                             else if (rn === settingsName) {
                                 iconName = focused ? 'ios-settings' : 'ios-settings-outline';
                             }
-    
+
                             return <Icon name={iconName} size={size} color={color} />
-    
+
                         },
                         tabBarActiveTintColor: "#FF403b",
                         tabBarInactiveTintColor: "#B4B4B4",
@@ -61,7 +84,7 @@ export default function MainContainer() {
                         },
                     })}
                 >
-    
+
                     <Tab.Screen styles={styles.bottomTab} options={{ headerShown: false }} name={portfolioName} component={Portfolio} />
                     <Tab.Screen options={{ headerShown: false }} name={stocksName} component={Stocks} />
                     <Tab.Screen options={{ headerShown: false }} name={settingsName} component={Settings} />
@@ -69,24 +92,34 @@ export default function MainContainer() {
             </NavigationContainer>
         )
     }
-    else{
+    else {
         return (
-            <View style={styles.bigContainer}>
-                <SafeAreaView style={styles.safeAreaView}>
-                    <StatusBar style={"light-content"}/>
-                    <View style={styles.imageContainer}>
-                        <Image
-                        style={styles.logo}
-                        source={require("./assets/logo.png")}
-                        />
-                    </View>
-                </SafeAreaView>
-            </View>
+            <LogoScreen />
         )
     }
 }
 
+function LogoScreen(props) {
+    return (
+        <View style={styles.bigContainer}>
+            <SafeAreaView style={styles.safeAreaView}>
+                <StatusBar style={"light-content"} />
+                <FadeLogo style={styles.imageContainer}>
+                    <Image
+                        style={styles.logo}
+                        source={require("./assets/logo.png")}
+                    />
+                </FadeLogo>
+            </SafeAreaView>
+        </View>
+    )
+}
+
 const styles = StyleSheet.create({
+    beginningView: {
+        height: "100%",
+        width: "100%"
+    },
     bigContainer: {
         height: "100%",
         width: "100%",
