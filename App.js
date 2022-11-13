@@ -1,20 +1,10 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import * as React from 'react';
+import * as Font from "expo-font";
+import MainContainer from './MainContainer';
 
 export default function App() {
+
   return (
-    <View style={styles.container}>
-      <Text>HackUTDIX Team: Big O's</Text>
-      <StatusBar style="auto" />
-    </View>
+    <MainContainer />
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
