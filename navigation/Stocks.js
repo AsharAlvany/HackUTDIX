@@ -14,7 +14,7 @@ export default function App() {
                 </View>
                 <View style={styles.searchContainer}>
                     <Icon adjustsFontSizeToFit name={"md-search"} color={"#FFFFFF"} style={styles.imNotSure} size={"15%"} />
-                    <TextInput style={styles.textInput} placeholder={"Search"} placeholderTextColor={"#B4B4B4"} />
+                    <TextInput keyboardAppearance={"dark"} style={styles.textInput} placeholder={"Search"} placeholderTextColor={"#B4B4B4"} />
                 </View>
                 <View style={styles.stockList}>
 
