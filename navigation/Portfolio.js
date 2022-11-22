@@ -1,45 +1,168 @@
-import { StyleSheet, StatusBar, Text, View, SafeAreaView } from 'react-native';
+import { StyleSheet, StatusBar, Text, View, SafeAreaView, TouchableOpacity, FlatList } from 'react-native';
 import React, { useState, useEffect, useRef } from "react";
 
-export default function App() {
-    let [money, setMoney] = useState(0.00);
-    return (
-        <View style={styles.bigContainer}>
-            <SafeAreaView style={styles.safeAreaView}>
-                <StatusBar style={"light-content"} />
-                <View style={styles.portfolioTextContainer}>
-                    <Text adjustsFontSizeToFit style={styles.portfolioText}>Portfolio</Text>
-                </View>
-                <View style={styles.moneyHandlingContainer}>
-                    <View style={styles.netBalanceContainer}>
-                        <Text adjustsFontSizeToFit style={styles.netBalance}>
-                            Net Balance
-                        </Text>
-                    </View>
-                    <View style={styles.moneyContainer}>
-                        <Text adjustsFontSizeToFit style={styles.money}>
-                            ${parseFloat(money).toFixed(2)}
-                        </Text>
-                    </View>
-                    <View style={styles.moneyManipContainer}>
-                        <View style={styles.addFundsContainer}>
-                            <Text adjustsFontSizeToFit style={styles.addFunds}>
-                                Add Funds
-                            </Text>
-                        </View>
-                        <View style={styles.transferFundsContainer}>
-                            <Text adjustsFontSizeToFit style={styles.transferFunds}>
-                                Transfer Funds
-                            </Text>
-                        </View>
-                    </View>
-                </View>
-                <View style={styles.mainGraph}>
+const DATA = [
+    "ATVI",
+    "ADBE",
+    "ADP",
+    "ABNB",
+    "ALGN",
+    "GOOGL",
+    "GOOG",
+    "AMZN",
+    "AMD",
+    "AEP",
+    "AMGN",
+    "ADI",
+    "ANSS",
+    "AAPL",
+    "AMAT",
+]
+const DATA2 = [
+    "Activision Blizzard",
+    "Adobe Inc.",
+    "ADP",
+    "Airbnb",
+    "Align Technology",
+    "Alphabet Inc. (Class A)",
+    "Alphabet Inc. (Class C)",
+    "Amazon",
+    "AMD",
+    "American Electric Power",
+    "Amgen",
+    "Analog Devices",
+    "Ansys",
+    "Apple Inc.",
+    "Applied Materials",
+]
 
-                </View>
-            </SafeAreaView>
-        </View>
-    );
+
+export default class Main extends React.Component{
+    constructor(props) {
+        super(props)
+        this.state = {
+          dataReceived: false,
+          stockData: [],
+          nasdaqData: [],
+          money: 473.26
+        };
+      }
+    async fetchData(symbol, name) {
+        let fetchURL = "https://finnhub.io/api/v1/quote?symbol=" + symbol + "&token=cdo5doaad3i5o5ol5i00cdo5doaad3i5o5ol5i0g";
+        let response = await fetch(fetchURL);
+        let newData = await response.json();
+        this.setState(prevState => ({
+            stockData: [...prevState.stockData, {
+                "symbol": symbol,
+                "fullName": name,
+                "atClose": newData.c,
+                "diff": newData.d
+            }]
+        }))
+      }
+    App = (props) => {
+        // let [money, setMoney] = useState(453.72);
+        // let [transfer, setTransfer] = useState(false);
+        // let [add, setAdd] = useState(false);
+        useEffect(() =>{
+            for (let i = 0; i < 15; i++) {
+                this.fetchData(DATA[i], DATA2[i]);
+            }
+            this.setState({dataReceived : true})
+            console.log("dataReceived: ", this.state.data);
+        })
+        return (
+            <View style={styles.bigContainer}>
+                <SafeAreaView style={styles.safeAreaView}>
+                    <StatusBar style={"light-content"} />
+                    <View style={styles.portfolioTextContainer}>
+                        <Text adjustsFontSizeToFit style={styles.portfolioText}>Portfolio</Text>
+                    </View>
+                    <View style={styles.moneyHandlingContainer}>
+                        <View style={styles.netBalanceContainer}>
+                            <Text adjustsFontSizeToFit style={styles.netBalance}>
+                                Net Balance
+                            </Text>
+                        </View>
+                        <View style={styles.moneyContainer}>
+                            <Text adjustsFontSizeToFit style={styles.money}>
+                                ${parseFloat(this.state.money).toFixed(2)}
+                            </Text>
+                        </View>
+                        <View style={styles.moneyManipContainer}>
+                            <TouchableOpacity style={styles.addFundsContainer}>
+                                <Text adjustsFontSizeToFit style={styles.addFunds}>
+                                    Add Funds
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.transferFundsContainer}>
+                                <Text adjustsFontSizeToFit style={styles.transferFunds}>
+                                    Transfer Funds
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                    <View style={styles.mainGraph}>
+                    <FlatList style={styles.stockList}
+                                data={this.state.stockData}
+                                renderItem={renderItem}
+                                keyExtractor={item => item.symbol}
+                            />
+                    </View>
+                </SafeAreaView>
+            </View>
+        );
+    }
+    render(){
+        if (this.state.dataReceived){
+            return(
+                <App/>
+            )
+        }
+        else{
+            return(
+                <View style={styles.bigContainer}>
+                <SafeAreaView style={styles.safeAreaView}>
+                    <StatusBar style={"light-content"} />
+                    <View style={styles.portfolioTextContainer}>
+                        <Text adjustsFontSizeToFit style={styles.portfolioText}>Portfolio</Text>
+                    </View>
+                    <View style={styles.moneyHandlingContainer}>
+                        <View style={styles.netBalanceContainer}>
+                            <Text adjustsFontSizeToFit style={styles.netBalance}>
+                                Net Balance
+                            </Text>
+                        </View>
+                        <View style={styles.moneyContainer}>
+                            <Text adjustsFontSizeToFit style={styles.money}>
+                                ${parseFloat(this.state.money).toFixed(2)}
+                            </Text>
+                        </View>
+                        <View style={styles.moneyManipContainer}>
+                            <TouchableOpacity style={styles.addFundsContainer}>
+                                <Text adjustsFontSizeToFit style={styles.addFunds}>
+                                    Add Funds
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.transferFundsContainer}>
+                                <Text adjustsFontSizeToFit style={styles.transferFunds}>
+                                    Transfer Funds
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                    <View style={styles.mainGraph}>
+                    <View style={styles.myStocksContainer}>
+                        <Text style={styles.myStocks}> My Stocks </Text>
+                    </View>
+                    <View style={{flex: 5}}>
+                    </View>
+                    </View>
+                </SafeAreaView>
+            </View>
+            )
+        }
+    }
 }
 
 const styles = StyleSheet.create({
@@ -165,6 +288,55 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         textAlign: "center"
-
     },
-});
+    transferBlackOut:{
+        position: "absolute",
+        bottom:"0%",
+        width: "100%",
+        height: "100%",
+        backgroundColor: "#18181A",
+        opacity: 0.4
+    },
+    transferContainer:{
+        position: "absolute",
+        bottom:"0%",
+        width: "100%",
+        height: "40%",
+        backgroundColor: "#0f0d10",
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    leftTransferContainer:{
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        marginVertical: "5%",
+        marginHorizontal: "5%",
+    },
+    rightTransferContainer:{
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        marginVertical: "5%",
+        marginHorizontal: "5%",
+    },
+    leftTransfer:{
+        background: "#18181A",
+        flex: 1,
+        borderRadius: "15%",
+    },
+    rightTransfer:{
+        background: "#18181A",
+        flex: 1,
+        borderRadius: "15%",
+    },
+    myStocksContainer:{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    myStocks:{
+        color: "white"
+    }
+})

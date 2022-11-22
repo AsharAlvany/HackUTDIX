@@ -1,4 +1,4 @@
-import { Animated, Easing, Touchable, StatusBar, StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { Animated, Easing, TouchableOpacity, StatusBar, StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import Icon from "react-native-vector-icons/Ionicons";
 
 export default function App() {
@@ -10,60 +10,60 @@ export default function App() {
                     <Text adjustsFontSizeToFit style={styles.settingsText}>Settings</Text>
                 </View>
                 <View style={styles.settingTabsContainer}>
-                    <View style={styles.settingOption}>
+                    <TouchableOpacity style={styles.settingOption}>
                         <View style={styles.settingLabelContainer}>
                             <Text adjustsFontSizeToFit style={styles.settingLabel}>Profile</Text>
                         </View>
                         <Icon name={"ios-arrow-forward-outline"} style={styles.rightArrow} />
-                    </View>
-                    <View style={styles.settingOption}>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.settingOption}>
                         <View style={styles.settingLabelContainer}>
                             <Text adjustsFontSizeToFit style={styles.settingLabel}>Security</Text>
                         </View>
                         <Icon name={"ios-arrow-forward-outline"} style={styles.rightArrow} />
-                    </View>
-                    <View style={styles.settingOption}>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.settingOption}>
                         <View style={styles.settingLabelContainer}>
                             <Text adjustsFontSizeToFit style={styles.settingLabel}>Appearance</Text>
                         </View>
                         <Icon name={"ios-arrow-forward-outline"} style={styles.rightArrow} />
-                    </View>
-                    <View style={styles.settingOption}>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.settingOption}>
                         <View style={styles.settingLabelContainer}>
                             <Text adjustsFontSizeToFit style={styles.settingLabel}>Notification</Text>
                         </View>
                         <Icon name={"ios-arrow-forward-outline"} style={styles.rightArrow} />
-                    </View>
-                    <View style={styles.settingOption}>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.settingOption}>
                         <View style={styles.settingLabelContainer}>
                             <Text adjustsFontSizeToFit style={styles.settingLabel}>Support</Text>
                         </View>
                         <Icon name={"ios-arrow-forward-outline"} style={styles.rightArrow} />
-                    </View>
-                    <View style={styles.settingOption}>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.settingOption}>
                         <View style={styles.settingLabelContainer}>
                             <Text adjustsFontSizeToFit style={styles.settingLabel}>Linked Banks</Text>
                         </View>
                         <Icon name={"ios-arrow-forward-outline"} style={styles.rightArrow} />
-                    </View>
-                    <View style={styles.settingOption}>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.settingOption}>
                         <View style={styles.settingLabelContainer}>
                             <Text adjustsFontSizeToFit style={styles.settingLabel}>Limits</Text>
                         </View>
                         <Icon name={"ios-arrow-forward-outline"} style={styles.rightArrow} />
-                    </View>
-                    <View style={styles.settingOption}>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.settingOption}>
                         <View style={styles.settingLabelContainer}>
                             <Text adjustsFontSizeToFit style={styles.settingLabel}>Documents</Text>
                         </View>
                         <Icon name={"ios-arrow-forward-outline"} style={styles.rightArrow} />
-                    </View>
-                    <View style={styles.settingOption}>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.settingOption}>
                         <View style={styles.settingLabelContainer}>
                             <Text adjustsFontSizeToFit style={styles.settingLabel}>Other</Text>
                         </View>
                         <Icon name={"ios-arrow-forward-outline"} style={styles.rightArrow} />
-                    </View>
+                    </TouchableOpacity>
                 </View>
             </SafeAreaView>
         </View>
